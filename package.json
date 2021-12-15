@@ -1,6 +1,6 @@
 {
   "name": "jest-silent-reporter-v2",
-  "version": "0.6.0-beta.0",
+  "version": "0.6.0-beta.1",
   "description": "A silent reporter for Jest",
   "main": "index.js",
   "repository": "https://github.com/yuhaoju/jest-silent-reporter",

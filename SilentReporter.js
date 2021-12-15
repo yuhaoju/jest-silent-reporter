@@ -1,5 +1,6 @@
-const jestUtils = require('jest-util');
 const jestReporters = require('@jest/reporters');
+const jestUtils = require('jest-util');
+
 const helpers = require('./helpers');
 const StdIo = require('./StdIo');
 
@@ -25,10 +26,12 @@ class SilentReporter {
     contexts,
     aggregatedResults,
   ) {
+    const { testResults } = aggregatedResults;
+    if (testResults[0].failureMessage) { this.stdio.log(`\n${ testResults[0].failureMessage}`); }
     if (this.useDots) {
       this.stdio.log('\n');
     }
-    this.stdio.log(jestReporters.utils.getSummary(aggregatedResults)+'\n');
+    this.stdio.log(`${jestReporters.utils.getSummary(aggregatedResults)}\n`);
     this.stdio.close();
   }
 
@@ -52,10 +55,9 @@ class SilentReporter {
       const hasFailures = testResult.failureMessage || hasSnapshotFailures;
 
       if (this.showPaths && hasFailures) {
-        this.stdio.log('\n' + test.path);
+        this.stdio.log(`\n${ test.path}`);
       }
-      if (testResult.failureMessage)
-        this.stdio.log('\n' + testResult.failureMessage);
+      // if (testResult.failureMessage) { this.stdio.log(`\n${ testResult.failureMessage}`); }
       if (testResult.console && this.showWarnings) {
         testResult.console
           .filter(entry => ['error', 'warn'].includes(entry.type) && entry.message)
