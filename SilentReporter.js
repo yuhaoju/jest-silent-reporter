@@ -27,7 +27,9 @@ class SilentReporter {
     aggregatedResults,
   ) {
     const { testResults } = aggregatedResults;
-    if (testResults[0].failureMessage) { this.stdio.log(`\n${ testResults[0].failureMessage}`); }
+    testResults.forEach(testResult => {
+      if (testResult.failureMessage) { this.stdio.log(`\n${ testResult.failureMessage}`); }
+    });
     if (this.useDots) {
       this.stdio.log('\n');
     }
@@ -57,7 +59,6 @@ class SilentReporter {
       if (this.showPaths && hasFailures) {
         this.stdio.log(`\n${ test.path}`);
       }
-      // if (testResult.failureMessage) { this.stdio.log(`\n${ testResult.failureMessage}`); }
       if (testResult.console && this.showWarnings) {
         testResult.console
           .filter(entry => ['error', 'warn'].includes(entry.type) && entry.message)
